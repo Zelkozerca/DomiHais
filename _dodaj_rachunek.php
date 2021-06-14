@@ -21,18 +21,17 @@
         VALUES ('$opis','$kwota','$login','$dluznik')";
 
         $sql_placacy_update="UPDATE uzytkownicy SET saldo_uzytkownika='$saldo'+'$kwota' WHERE nazwa_uzytkownika='$login'";
-        $sql_dluznik_update="UPDATE uzytkownicy SET saldo_uzytkownika='$saldo'-'$kwota' WHERE nazwa_uzytkownika='$dluznik'";
+        $sql_dluznik_update="UPDATE uzytkownicy SET saldo_uzytkownika=(SELECT saldo_uzytkownika FROM uzytkownicy WHERE nazwa_uzytkownika='$dluznik')-'$kwota' WHERE nazwa_uzytkownika='$dluznik'";
 
         if($polaczenie->query($sql)===TRUE){
             echo 'alert("dodano do bazy")';
 
             if($polaczenie->query($sql_placacy_update)===TRUE){
                 echo 'alert("zmieniono saldo placacego")';
-                // $_SESSION['saldo_uzytkownika']=$saldo+$kwota;
+                $_SESSION['saldo_uzytkownika']=$saldo+$kwota;
 
                 if($polaczenie->query($sql_dluznik_update)===TRUE){
                     echo 'alert("zmieniono saldo dluznika")';
-                    $_SESSION['saldo_uzytkownika']=$saldo+$kwota;
 
                 }else{
                     echo "Error: " . $sql . "<br>" . mysqli_error($polaczenie);
@@ -48,5 +47,4 @@
 
         $polaczenie->close();
     }
-    // $_SESSION['saldo_uzytkownika']=$saldo+$kwota;
 ?>
