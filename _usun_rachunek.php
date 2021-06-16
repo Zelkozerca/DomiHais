@@ -19,6 +19,7 @@
 
         $rezultat=$polaczenie->query($sql_dane_rachunek);
 
+        //a co jeśli nie ma takiego rachunku?
         $sql="DELETE FROM rachunki WHERE id_rachunku='$id' AND nazwa_placacego='$login'";
 
         if($rezultat->num_rows>0){
@@ -51,7 +52,6 @@
             }
         }echo "0 wyników";
 
-        // $_SESSION['saldo_uzytkownika']=$saldo-$kwota;
         header('Location: budzet.php');
 
         $polaczenie->close();
