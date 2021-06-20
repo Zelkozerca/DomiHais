@@ -12,8 +12,6 @@
 
         $login=$_SESSION['nazwa_uzytkownika'];
         $saldo=$_SESSION['saldo_uzytkownika'];
-
-        echo $saldo;
         
         $sql_dane_rachunek="SELECT nazwa_dluznika, kwota_rachunku FROM rachunki WHERE id_rachunku='$id'";
 
@@ -33,13 +31,13 @@
 
             if($polaczenie->query($sql_placacy_update)===TRUE){
                 echo 'alert("zmieniono saldo placacego")';
-                $_SESSION['saldo_uzytkownika']=$saldo-$kwota;
                 
                 if($polaczenie->query($sql_dluznik_update)===TRUE){
                     echo 'alert("zmieniono saldo dluznika")';
 
                     if($polaczenie->query($sql)===TRUE){
                         echo 'alert("usunięto")';
+                        $_SESSION['saldo_uzytkownika']=$saldo-$kwota;
 
                     }else{
                         echo "Error: " . $sql . "<br>" . mysqli_error($polaczenie);
@@ -50,9 +48,9 @@
             }else{
                 echo "Error: " . $sql . "<br>" . mysqli_error($polaczenie);
             }
-        }echo "0 wyników";
+        }else echo "0 wyników";
 
-        header('Location: budzet.php');
+        // header('Location: budzet.php');
 
         $polaczenie->close();
     }
